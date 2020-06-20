@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import  HomePage from "./components/homepage.component";
 import  EditPage from "./components/edit.component";
+import  NameFinder from "./components/name.finder.component";
+
 import  DisplayPage from "./components/display.component";
 import  FetchNames from "./components/fetchNames";
 import Fnames from "./components/fnames";
@@ -33,7 +35,7 @@ class App extends Component {
                 </li>
 
                 <li className="navbar-item">
-                  <Link to="/display" className="nav-link">Display Code </Link>
+                  <Link to="/nameFinder" className="nav-link">Name Finder </Link>
                 </li>
               </ul>
             </div>
@@ -47,9 +49,9 @@ class App extends Component {
            </div>
            </div>
           </div>
-          
+
           <Route path="/edit/:id" component={EditPage} />
-          <Route path="/display" component={DisplayPage} />
+          <Route path="/nameFinder" component={NameFinder} />
 
         </div>
 
