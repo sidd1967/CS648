@@ -45,6 +45,27 @@ nameRoutes.route('/getall/fnames').get(function(req, res) {
   .catch((err) => res.status(400).json(`Error: ${err}`));
 });
 
+nameRoutes.route('/get/fnamecode').post(function(req, res) {
+  console.log("Hello");
+  let code = req.body.fnameCode;
+  console.log("Fname Here = " + code);
+
+  Firstname.find({ Code: code})
+  .then(function(name){
+    console.log(name);
+    res.json(name);
+  })
+  .catch((err) => res.status(400).json(`Error: ${err}`));
+});
+
+nameRoutes.route('/get/snamecode').post(function(req, res) {
+  let code = req.body.snameCode;
+  console.log("Sname Here = " + code);
+
+  Surname.find({ Ref1: code})
+  .then((sname) => res.json(sname))
+  .catch((err) => res.status(400).json(`Error: ${err}`));
+});
 
 
 
