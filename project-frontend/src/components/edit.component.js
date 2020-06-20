@@ -117,7 +117,7 @@ export default class EditPage extends Component {
                 allsnames: result2,
                 isLoadedFnames:true
               })
-
+               console.log(this.state);
 
             });
 
@@ -144,45 +144,83 @@ export default class EditPage extends Component {
 
     console.log(newNameSet);
 
-    axios.post('http://localhost:4000/names/get/sname', newNameSet)
-         .then(res => {
-           console.log("sname here");
 
-           console.log(res.data.Ref1);
-           this.setState({
-             snameCode:res.data.Ref1,
-             snameCompl: true
+    if (this.state.firstName ==='' & this.state.surName === '') {
+
+      window.alert('Name Not Found');
+
+    }
+    else if (this.state.firstName === '' && this.state.surName != '') {
+      axios.post('http://localhost:4000/names/get/sname', newNameSet)
+      .then(res => {
+        console.log("sname here");
+
+        console.log(res.data.Ref1);
+        this.setState({
+          snameCode:res.data.Ref1,
+          snameCompl: true,
+          finalCode: res.data.Ref1
+        })
+       console.log(this.state);
+
+     })
+     .catch(() => window.alert('Please refresh and Try again'));
+
+
+    }
+    else if (this.state.firstName !='' && this.state.surName === '') {
+
+      axios.post('http://localhost:4000/names/get/fname', newNameSet)
+            .then(res => {
+              console.log("fname here");
+              console.log(res.data);
+              this.setState({
+                fnameCode:res.data.Code,
+                fnameCompl: true,
+                finalCode: res.data.Code
+              })
+
+              console.log(this.state.fnameCode);
+              console.log(this.state);
+                })
+            .catch(() => window.alert('Please refresh and Try again'));
+
+
+    }
+
+    else {
+      axios.post('http://localhost:4000/names/get/sname', newNameSet)
+           .then(res => {
+             console.log("sname here");
+
+             console.log(res.data.Ref1);
+             this.setState({
+               snameCode:res.data.Ref1,
+               snameCompl: true
+             })
+            console.log(this.state.snameCode);
+            console.log(this.state);
+            axios.post('http://localhost:4000/names/get/fname', newNameSet)
+                  .then(res => {
+                    console.log("fname here");
+                    console.log(res.data);
+                    this.setState({
+                      fnameCode:res.data.Code,
+                      fnameCompl: true
+                    })
+
+                    console.log(this.state.fnameCode);
+                    console.log(this.state);
+                    this.setState({
+                      finalCode: this.state.snameCode + this.state.fnameCode
+                    })
+
+                      })
+                      .catch(() => window.alert('Please refresh and Try again'));
            })
-          console.log(this.state.snameCode);
-          console.log(this.state);
-          axios.post('http://localhost:4000/names/get/fname', newNameSet)
-                .then(res => {
-                  console.log("fname here");
-                  console.log(res.data);
-                  this.setState({
-                    fnameCode:res.data.Code,
-                    fnameCompl: true
-                  })
+           .catch(() => window.alert('Please refresh and Try again'));
 
-                  console.log(this.state.fnameCode);
-                  console.log(this.state);
-                  this.setState({
-                    finalCode: this.state.snameCode +" "+ this.state.fnameCode
-                  })
-
-                    });
-         });
-
-
-
-
-
-
-
-
-
-
-
+    }
   }
   render(){
 
