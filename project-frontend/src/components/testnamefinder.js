@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import '../AutoCompleteText.css'
 import { Link, animateScroll as scroll } from "react-scroll";
+import { Redirect } from 'react-router';
+
 
 const Todo = props => (
     <tr>
@@ -22,7 +24,7 @@ const Todo2 = props => (
     </tr>
 )
 
-export default class NameFinder extends Component {
+export default class TestNameFinder extends Component {
 
   constructor(props){
     super(props);
@@ -46,7 +48,7 @@ export default class NameFinder extends Component {
 
 
   onTextChangedCode = (e) => {
-
+      console.log("Changed");
   this.setState({
     finalCode: e.target.value
   });
@@ -86,9 +88,13 @@ export default class NameFinder extends Component {
     e.preventDefault();
     var scode = this.scode.value;
     var fcode = this.fcode.value;
-    var name = this.scode.value;
-      console.log(scode);
-      console.log(name.toString().substring(0, 2));
+
+      var name = this.state.finalCode;
+      var finCode = this.finCode.value;
+      console.log(finCode);
+      console.log(name);
+      var test = name.toString().substring(0, 2);
+      console.log("TEst ==== " + test);
 
     console.log(`Form Submitted`);
     const codeSet = {
@@ -167,10 +173,6 @@ export default class NameFinder extends Component {
 
 
 
-
-
-
-
   }
   render(){
 
@@ -180,19 +182,22 @@ export default class NameFinder extends Component {
 
     return(
       <div style ={{marginTop: 20}}>
-      <br/>
-      <br/>
+
           <h3> Welcome to Name Finder Component!!!!</h3>
           <br/>
-          <form onSubmit= {this.onSubmit}>
+<p> The Name Finder Component is used to look-up the List of Names corresponding to the 7-Digit Soundex Code filled in the form Below. <br/> - Please Type in the code in the text box.<br/> - The Name Encoding system automatically detects and displays the Surname Code and the First Name Code in the corresponding Text Boxes.<br/> - And Click "Find Names" to get the list of names with the same code entered in the Text Box.<br/>  </p>
+          <form onSubmit= {this.onSubmit} action = "data">
              <div className= "form-group">
 
              <label> Enter Code: </label>
              <div className= "App-Component">
              <div className= "AutoCompleteText">
              <input type="text"
-                    className="form-control"
-                    onChange = {this.onTextChangedCode} />
+                                className="form-control"
+                                name="finCode"
+                                onChange={this.onTextChangedCode}
+                                ref={(c) => this.finCode = c}
+                            />
             </div>
             </div>
             <br/>
@@ -226,8 +231,18 @@ export default class NameFinder extends Component {
              </div>
              <br/>
 
-<input type="submit" value=" Find Names" className="btn btn-primary" />
 
+<Link
+type = "submit"
+onClick = {this.onSubmit}
+activeClass="active"
+to="data"
+className="btn btn-primary"
+style={{float : 'left', paddingRight : '15px', marginLeft: '0px', color: 'white'}}
+spy={true}
+smooth={true}
+offset={0}
+duration= {500}>Find Names</Link>
 
            <br/><br/>
 
@@ -246,6 +261,7 @@ export default class NameFinder extends Component {
                                    { this.displaySurname() }
                                </tbody>
                            </table>
+    <div id="data">
             <h3>Firstname List</h3>
                             <table className="table table-striped" style={{ marginTop: 20 }} >
                                                <thead>
@@ -259,6 +275,8 @@ export default class NameFinder extends Component {
                                                    { this.displayFirstname() }
                                                </tbody>
                                            </table>
+                                           </div>
+
 
 
              </div>
@@ -279,7 +297,6 @@ export default class NameFinder extends Component {
             </div>
           </form>
       </div>
-
 
 
     )
