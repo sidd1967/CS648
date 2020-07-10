@@ -3,8 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors =  require('cors');
 const mongoose = require('mongoose');
+var multer = require('multer')
 const PORT = 4000;
 const nameRoutes = express.Router();
+var fs = require('fs');
+var Q = require('q');
 
 
 const Surname = require("./models/surname.model");
@@ -21,6 +24,8 @@ connection.once('open', function(){
   console.log("MongoDB Connection Successful");
 });
 
+
+
 nameRoutes.route('/').get(function(req, res) {
   names.find(function(err, code) {
     if(err) {
@@ -33,7 +38,7 @@ nameRoutes.route('/').get(function(req, res) {
 })
 
 nameRoutes.route('/getall/snames').get(function(req, res) {
-  Surname.find({}, {Surname: 1, _id: 0})
+  Surname.find({}).select('Surname -_id')
   .then((allsnames) => res.json(allsnames))
   .catch((err) => res.status(400).json(`Error: ${err}`));
 });
@@ -46,7 +51,7 @@ nameRoutes.route('/getall/fnames').get(function(req, res) {
 });
 
 nameRoutes.route('/get/fnamecode').post(function(req, res) {
-  console.log("Hello");
+  console.log("Hello How are You");
   let code = req.body.fnameCode;
   console.log("Fname Here = " + code);
 
@@ -73,7 +78,7 @@ nameRoutes.route('/get/snamecode').post(function(req, res) {
 nameRoutes.route('/get/fname').post(function(req, res) {
   let fname = req.body.firstName;
   console.log("Comes to fname");
-  console.log(fname);
+  console.log(req.body);
 
 
 
@@ -106,51 +111,153 @@ nameRoutes.route('/get/sname').post(function(req, res) {
   .catch(err => {
     res.status(400).send('Fname and Sname Operation Failed');
   })
-
-  /*Surname.findOne({ surname: sname}, function(err, code) {
-    res.json(code);
-  });*/
-});
-/*
-nameRoutes.route('/add').post(function(req, res) {
-  console.log(req.body.firstName);
-  console.log(req.body.surName);
-  const fname = new Firstname({
-    first_name: req.body.firstName,
-
-  });
-  const sname = new Surname({
-
-    surname: req.body.surName,
-
-  });
-
-  fname.save()
-  .then(code => {
-    sname.save()
-    .then(fname => {
-      res.status(200).json({'Fname and Sname': 'record added successfully'})
-    })
-    .catch(err => {
-      res.status(400).send('Fname and Sname Operation Failed');
-    })
-  }).catch(err => {
-    res.status(400).send('Both Operation Failed');
-});
 });
 
 
-nameRoutes.route('/log').post(function(req, res) {
-  let name = new names(req.body);
-  name.save()
-  .then(name => {
-    res.status(200).json({'name': 'name is logged successfully'});
-  })
-  .catch(err => {
-    res.status(400).send('Logging Failed');
-  });
+
+//TO Handle the Files Containing Names
+nameRoutes.route('/get/filenames').post(function (req, res) {
+    console.log("/////////////////////////////////////////////////////////////////////////Backend  Executing");
+    console.log("Length = " + req.body.length);
+    const length = req.body.length;
+    console.log(req.body);
+    const data = req.body.body;
+   
+    var codearray = [];
+    var counter = 0;
+    const sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    const getSCode = name => {
+        console.log("IN GET CODE : " + name)
+        var n = name[3]
+        
+        Surname.findOne({ Surname: name[1] })
+            .then(function (code1) {
+                //For the FirstName
+                
+                Firstname.findOne({ Firstname: name[2] })
+                    .then(function (code2) {
+                        counter=  counter+1;
+                        codearray.push(({ "ID": name[0], "Surname": name[1], "Firstname": name[2], "SurnameCode": code1.Ref1, "FirstnameCode": code2.Code, "FinalCode": code1.Ref1 + code2.Code }));
+                        //console.log(codearray)
+                        console.log(counter)
+                        if (counter === n) {
+                            console.log("SENDING DATA BACK TO CLIENT")
+                            res.json(codearray)
+
+                        }
+                    });
+            })
+    }
+    
+    const forLoop = async _ => {
+        console.log('Start')
+
+        for (let index = 0; index < length; index++) {
+            const name1 = [data[index].Id, data[index].Surname,  data[index].Firstname, length]
+            //const name2 = [data[index].Firstname, data[index].Id]
+           
+            const snameCodes = await getSCode(name1)
+            //console.log(snameCodes)
+            
+            
+        }
+        console.log('End')
+
+
+
+    }
+    
+    const promise = forLoop()
+    console.log(promise)  
+  
+ 
+
 });
-*/
+
+
+//To Handle File Constaining Codes
+nameRoutes.route('/get/filecodes').post(function (req, res) {
+    console.log("/////////////////////////////////////////////////////////////////////////BE  Executing");
+    console.log("Length = " + req.body.length);
+    const length = req.body.length;
+   
+    const data = req.body.body;
+    console.log(data);
+    var codearray = [];
+    var counter = 0;
+    const sleep = ms => {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    const getSCode = name => {
+        console.log("IN THE GET CODE : " + name)
+        var n = name[3]
+
+        Surname.findOne({ Ref1: name[1] })
+            .then(function (code1) {
+                //For the FirstName
+                Firstname.findOne({ Code: name[2] })
+                    .then(function (code2) {
+                        counter = counter + 1;
+                        
+                        
+                        codearray.push(({ "ID": name[0], "SurnameCode": name[1], "FirstnameCode": name[2], "Surname": code1.Surname, "Firstname": code2.Firstname}));
+                        //console.log(code2)
+                        console.log(counter)
+                        
+                        if (counter === n) {
+                            console.log("SENDING DATA BACK TO CLIENT")
+                            console.log(codearray);
+                            
+
+                            //console.log(codearray)
+                            res.json(codearray)
+
+                        }
+                    });
+            })
+    }
+
+    const forLoop = async _ => {
+        console.log('Start')
+        
+        for (let index = 0; index < length; index++) {
+            const code1 = [data[index].ID, data[index].Scode, data[index].Fcode, length]
+            
+
+            const snameCodes = await getSCode(code1)
+            //console.log(snameCodes)
+
+
+        }
+        console.log('End')
+
+
+
+    }
+
+    const promise = forLoop()
+    console.log(promise)
+
+
+
+
+});
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
 
 app.use('/names', nameRoutes);
 
