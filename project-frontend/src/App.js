@@ -5,12 +5,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import  HomePage from "./components/homepage.component";
 import  EditPage from "./components/edit.component";
-import  NameFinder from "./components/name.finder.component";
 
-import  DisplayPage from "./components/display.component";
-import  FetchNames from "./components/fetchNames";
-import Fnames from "./components/fnames";
-import Snames from "./components/snames";
+import  ExcelHandler from "./components/excel.reader.component";
+import  FileNameFinder from "./components/file.nameFinder.component";
+import  TestNameFinder from  "./components/testnamefinder"
+
+
 
 
 import logo from "./logo.png";
@@ -31,11 +31,20 @@ class App extends Component {
             <div className="collpase nav-collapse">
               <ul className="navbar-nav mr-auto">
                 <li className="navbar-item">
-                  <Link to="/" className="nav-link">Home Page </Link>
+                  <Link to="/home" className="nav-link">Home Page </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/edit" className="nav-link">Code Generator </Link>
                 </li>
 
                 <li className="navbar-item">
                   <Link to="/nameFinder" className="nav-link">Name Finder </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/file" className="nav-link">File Handler </Link>
+                </li>
+                <li className="navbar-item">
+                  <Link to="/fileName" className="nav-link">File Name Finder </Link>
                 </li>
               </ul>
             </div>
@@ -43,15 +52,19 @@ class App extends Component {
           <div className = "App">
            <div className = "App-Component">
            <div className = "App-Component">
-           <EditPage snames={Snames} fnames={Fnames}/>
+           
 
 
            </div>
            </div>
           </div>
+                  <Route exact path="/" component={HomePage} />
+          <Route path="/edit" component={EditPage} />
+          <Route path="/home" component={HomePage} />
+          <Route path="/nameFinder" component={TestNameFinder} />
+          <Route path="/file" component={ExcelHandler} />
+          <Route path="/fileName" component={FileNameFinder} />
 
-          <Route path="/edit/:id" component={EditPage} />
-          <Route path="/nameFinder" component={NameFinder} />
 
         </div>
 
