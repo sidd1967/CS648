@@ -1,20 +1,20 @@
 .AutoCompleteText {
-  width: 80%;
-  border: 1px solid grey;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
-  outline: none;
-
+    width: 80%;
+    border: 1px solid grey;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
+    outline: none;
+    
 }
 
 .AutoCompleteText input {
-  width:100%;
-  border: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.73);
-  padding: 10px 5px;
-  box-sizing: border-box;
-  outline: none;
+    width: 100%;
+    border: none;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px;
+    color: #000000;
+    padding: 10px 5px;
+    box-sizing: border-box;
+    outline: none;
 }
 
 .AutoCompleteText ul::before {
@@ -43,30 +43,69 @@
   background-color: rgba(128, 128, 128, 0.20);
 }
 
-code {
-  background: #2db34a;
-  border-radius: 6px;
-  color: #fff;
+
+
+div.b {
+  position: absolute;
+  left: 800px;
+  width: 310px;
+  height: auto;
+  border-bottom: 2px solid rgb(52, 58, 64);
+  border-right: 2px solid rgb(52, 58, 64);
+  border-left: 2px solid rgb(52, 58, 64);
+  background-color: rgb(52, 58, 64);
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   display: block;
-  font: 14px/24px "Source Code Pro", Inconsolata, "Lucida Console", Terminal, "Courier New", Courier;
-  padding: 24px 15px;
-  text-align: center;
+  font: 16px "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  color: aliceblue;
+  text-align: left;
+  line-height: 21px;
+  margin-top: 0px;
+   
+
+} 
+div.c {
+  font: 14px "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  text-align: left;
+  line-height: 21px;
 }
-header,
-section,
-aside,
-footer {
-  margin: 0 1.5% 24px 1.5%;
+
+div.textbox {
+  border-style: inset;
+  border-radius: 8px;
+  padding-left: 15px;
+  background-color: rgb(36, 43, 49);
+  display: block;
+  font: 14px "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  text-align: left;
+  line-height: 18px;
+
 }
-section {
-  float: left;
-  width: 63%;
+
+div.bold {
+  font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-weight: bold;
+  line-height: 22px;
 }
-aside {
-  float: right;
-  width: 30%;
+
+
+.center {
+  display: block;
+  height: auto;
+  width: 190px;
+  margin-left: 40px;
+  margin-right: 20px;
 }
-footer {
-  clear: both;
-  margin-bottom: 0;
+
+
+.center2 {
+  display: block;
+  height: auto;
+  width: 250px;
+  margin-left: 20px;
+  margin-right: 20px;
 }

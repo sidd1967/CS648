@@ -11,6 +11,7 @@ import  FileNameFinder from "./components/file.nameFinder.component";
 import  TestNameFinder from  "./components/testnamefinder"
 
 
+import car from "./bg.jpg";
 
 
 import logo from "./logo.png";
@@ -19,10 +20,11 @@ import logo from "./logo.png";
 class App extends Component {
   render() {
       return (
+          
         <Router>
-         <div className= "container">
+         <div className= "container" >
 
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                  <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 
             <a className="navbar-brand" href="https://google.com" target="_blank">
               <img src = {logo} width="30" height="30" alt="Soundex Project" />
@@ -49,10 +51,11 @@ class App extends Component {
               </ul>
             </div>
           </nav>
-          <div className = "App">
+                  <div className="App" >
            <div className = "App-Component">
            <div className = "App-Component">
            
+<br/><br/>
 
 
            </div>
@@ -70,7 +73,7 @@ class App extends Component {
 
 
 
-        </Router>
+              </Router>
 
     );
   }
