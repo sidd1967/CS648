@@ -20,14 +20,7 @@ const Todo = props => (
 
     </tr>
 )
-const Todo1 = props => (
-    <tr>
-        <td>{props.todo.Firstname}</td>
-        <td>{props.todo.Code}</td>
 
-
-    </tr>
-)
 
 
 class FileNameFinder extends Component {
@@ -154,7 +147,7 @@ class FileNameFinder extends Component {
      })
 
   }
-
+   
   displayNames() {
 
           return this.state.finalSet.map(function(currentTodo, i){
@@ -164,22 +157,42 @@ class FileNameFinder extends Component {
 
       }
 
+      
+
 
   render() {
+   
 
-
-    return(
+      return (
+          <div className="form">
         <div class="container">
             <div class="row">
 
     	  <div class="col-md-6">
+        
 
+        
+        <div className="b">
+    Format of the File to be uploaded <br/><br/><img src = {instructs} className = "center" alt="Soundex Project" /> <br/><br/>
+     <div className="c">
+     The file to be uploaded can be of the formats:
+     <div className="textbox"> <br/> .xlsx, .xlsb, .xlsm, .xls, .xml, .csv, .txt,<br/> .ods, .fods, .uos, .sylk, .dif, .dbf, .prn, <br/>.qpw .wb*, .wq*, .html, .htm <br/><br/></div>
+   <br/>- The file must contain 2 columns: "ID" and "Code".<br/> - ID is just a serial Number. <br/>
+   - Ideally, the code must be a 7 digit integer, but the excel files eliminate the leading zeros.<br/> - For Example if the correct structure of Soundex code is 0001023, but excel saves it as 1023 which is not correct.
+     <br/>- The system is designed to acknowledge this problem and convert the code from "1023" to "0001023"<br/><br/>
 
+       
+       
+       </div>
+      </div>
+        <br/>
+        
+          
 
-
+                    <br />
 
                   <div class="form-group files">
-                    <label htmlFor="file">Upload Your File </label>
+                    <label htmlFor="file"><h3>Upload Your File</h3> </label>
                      <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
                   </div>
                   <br />
@@ -217,11 +230,7 @@ class FileNameFinder extends Component {
 
                 </div>
 
-                <aside>
-                <br/>
-
-                  <code> Format of the File to be uploaded <br/><br/><img src = {instructs} width="160" height="160" alt="Soundex Project" /> </code>
-                </aside>
+                
 
                 <div class="col-md-8">
                     <div id="data">
@@ -250,7 +259,9 @@ class FileNameFinder extends Component {
 
 
     	  </div>
-        </div>
+              </div>
+
+          </div>
 
     )
 

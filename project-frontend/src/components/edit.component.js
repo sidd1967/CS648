@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import '../AutoCompleteText.css'
-import Fnames from "./fnames";
+import instructs from "../demo.PNG";
 
 
 export default class EditPage extends Component {
@@ -242,10 +242,36 @@ export default class EditPage extends Component {
 
     const { text1 } = this.state;
     const { text2 } = this.state;
-    return(
-      <div style ={{marginTop: 20}}>
-          <h3> Welcome to Code Generator Component!!!!</h3>
-          <p> The Code Generator Component is used to look-up the 7-Digit Soundex Code for the Names given in theform Below. <br/> - Please Type in the name in the text boxes.<br/> - The Auto Suggestion Feature suggests a list of names with the correct spelling.<br/> - Select one of the names.<br/> And Click Generate Code to get the 7 Digit Soundex Code.<br/> Note: You can also generate Codes for Surname or Firstname Only. </p>
+      return (
+          
+          <div className="form">
+     <div class="col-md-9">
+                  
+                     
+                      
+                  <div className="b">
+                    <div className = "bold">Instructions</div> <br/>
+
+     <div className="c">
+     The Code Generator Component is used to look-up the 7-Digit Soundex Code for the Names given in the form below. <br/> - Please Type in the name in the text boxes.
+   <br/>- Ideally, you can enter either Surname/Firstname or both only from the list of suggestions that will be displayed once you start typing the names in the input text boxes.<br/><br/> If you enter<br/>
+   <div className= "bold">- Only First Name </div>   Returns a  3 digit code corresponding to the Firstname<br/>
+   <div className= "bold">- Only Surname </div>  Returns a 4 digit code corresponding to the Surname<br/>
+   <div className= "bold">- Both Firstname and Surname </div>    Returns a 7 Digit code in the Format "4 Digit Surname Code" followed by "3 Digit" Firstname code<br/><br/> 
+   For example, Abby Wynn is represented as 1158002.<br/>
+   Here "1158" -> Corresponds to Surname(Wynn) Code<br/>
+   And "002" -> Corresponds to Firstname(Abby) Code<br/><br/>
+
+       
+       
+       </div>
+      </div>
+         
+                  <br/>
+
+
+                  <h3> Welcome to Code Generator Component!!!!</h3>
+
           <form onSubmit= {this.onSubmit}>
              <div className= "form-group">
 
@@ -271,7 +297,8 @@ export default class EditPage extends Component {
                      onChange = {this.onTextChangedFname} />
                      {this.renderSuggestionsFname()}
 
-             </div>
+                                  </div>
+                                  
              </div>
              </div>
 
@@ -292,13 +319,17 @@ export default class EditPage extends Component {
              <input type="text"
                     className="form-control"
                     value={this.state.finalCode}
-                    onChange = {this.onChangeCode} />
+                                          onChange={this.onChangeCode} />
             </div>
             </div>
 
             </div>
-          </form>
-      </div>
+                      </form><br /> 
+                      
+                      
+              
+              </div>
+          </div>
 
 
 

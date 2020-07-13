@@ -180,12 +180,29 @@ export default class TestNameFinder extends Component {
     const { firstName } = this.state;
     const fnameCode =  finalCode.toString().substring(0,4);
 
-    return(
-      <div style ={{marginTop: 20}}>
+      return (
 
+          <div className="form">
+        <div class="col-md-9" >
+      
+        <div className="b">
+                    <div className = "bold">Instructions</div> <br/>
+
+     <div className="c">
+     The Name Finder Component is used to look-up Names coresponding to the code enetered in the form<br/> It also displays a list of Names with the same code. <br/> - Please Type in the name in the text boxes.
+   <br/>- Ideally, you can enter either Surname Code(4 Digits)/Firstname(3 Digits) Code or both(7 Digits).<br/><br/> If you enter<br/>
+   <div className= "bold">- Only First Name Code</div>   Returns a list of Firstnames corresponding to the Firstname Code <br/>
+   <div className= "bold">- Only Surname Code </div>  Returns a list of Surnames corresponding to the Surname Code<br/>
+   <div className= "bold">- Both Firstname and Surname Code</div>  The system displays the Surname Code and he Firstname Code inthe respective Text boxes. Then after form submission, the system returns a list of Surnames and First Names Corresponding tto the  Digit Code given as input in the form.<br/><br/> 
+   
+
+       
+       
+       </div>
+      </div>
+<br/>
           <h3> Welcome to Name Finder Component!!!!</h3>
           <br/>
-<p> The Name Finder Component is used to look-up the List of Names corresponding to the 7-Digit Soundex Code filled in the form Below. <br/> - Please Type in the code in the text box.<br/> - The Name Encoding system automatically detects and displays the Surname Code and the First Name Code in the corresponding Text Boxes.<br/> - And Click "Find Names" to get the list of names with the same code entered in the Text Box.<br/>  </p>
           <form onSubmit= {this.onSubmit} action = "data">
              <div className= "form-group">
 
@@ -296,7 +313,9 @@ duration= {500}>Find Names</Link>
 
             </div>
           </form>
-      </div>
+      
+              </div>
+              </div>
 
 
     )

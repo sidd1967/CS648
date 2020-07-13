@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 
 export default  class HomePage extends Component {
   render(){
-    return(
+      return (
+
+          <div className="form">
       <div>
       <br/>
       <br/>
@@ -38,8 +40,8 @@ To encode the whole name, the index codes for surname and first-name were combin
 For example, Patrick Hanlon in Griffith Valuation is represented as 0606094.<br/>
 The signature Patk O’Hanlon on the Morpeth Roll produces the same code, as does Patt Hanlon and Paddy Hanlin. This scheme also has the potential for partial matching as the range 0606000 to 0606999 represent all the Hanlon variants whatever the first name.
 </p>
-      </div>
-
+              </div>
+          </div>
 
 
     )
