@@ -136,11 +136,29 @@ nameRoutes.route('/get/filenames').post(function (req, res) {
         Surname.findOne({ Surname: name[1] })
             .then(function (code1) {
                 //For the FirstName
-                
+                console.log(code1);
                 Firstname.findOne({ Firstname: name[2] })
                     .then(function (code2) {
+                      console.log(code2);
                         counter=  counter+1;
+                        if(!code1){
+
+                          codearray.push(({ "ID": name[0], "Surname": name[1], "Firstname": name[2], "SurnameCode": '', "FirstnameCode": code2.Code, "FinalCode": '' + code2.Code }));
+
+                       }
+                       else if(!code2){
+                        codearray.push(({ "ID": name[0], "Surname": name[1], "Firstname": name[2], "SurnameCode": code1.Ref1, "FirstnameCode": '', "FinalCode": code1.Ref1 + '' }));
+
+                       }
+                       else{
                         codearray.push(({ "ID": name[0], "Surname": name[1], "Firstname": name[2], "SurnameCode": code1.Ref1, "FirstnameCode": code2.Code, "FinalCode": code1.Ref1 + code2.Code }));
+                       }
+
+
+
+
+
+                        
                         //console.log(codearray)
                         console.log(counter)
                         if (counter === n) {
@@ -156,7 +174,7 @@ nameRoutes.route('/get/filenames').post(function (req, res) {
         console.log('Start')
 
         for (let index = 0; index < length; index++) {
-            const name1 = [data[index].Id, data[index].Surname,  data[index].Firstname, length]
+            const name1 = [data[index].ID, data[index].Surname,  data[index].Firstname, length]
             //const name2 = [data[index].Firstname, data[index].Id]
            
             const snameCodes = await getSCode(name1)
