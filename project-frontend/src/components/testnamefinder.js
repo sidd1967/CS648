@@ -86,15 +86,23 @@ export default class TestNameFinder extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    var scode = this.scode.value;
-    var fcode = this.fcode.value;
+    var fincode = this.finCode.value;
+    console.log("Fincode Value = " + fincode);
+    
+    if(fincode == ''){
+      var scode = this.soloScode.value;
+      var fcode = this.soloFcode.value;
+    }
+    else{
+      var scode = this.scode.value;
+      var fcode = this.fcode.value;
+    }
 
       var name = this.state.finalCode;
-      var finCode = this.finCode.value;
-      console.log(finCode);
-      console.log(name);
-      var test = name.toString().substring(0, 2);
-      console.log("TEst ==== " + test);
+      
+      console.log(scode);
+      console.log(fcode);
+      
 
     console.log(`Form Submitted`);
     const codeSet = {
@@ -105,48 +113,65 @@ export default class TestNameFinder extends Component {
     console.log(codeSet);
 
   if(scode === '' && fcode ===''){
-    window.alert('Code Not Found');
+    window.alert('Please Enter the Codes');
 
 
   }
   else if (scode != '' && fcode != '') {
 
     axios.post('http://localhost:4000/names/get/fnamecode', codeSet)
-        .then((res) => {
+        .then((res1) => {
+            
             console.log("Firstname Done");
-            console.log(res.data);
+            console.log(res1.data);
             this.setState({
-              firstName: res.data
+              firstName: res1.data
 
             });
             axios.post('http://localhost:4000/names/get/snamecode', codeSet)
-            .then((res) => {
+            .then((res2) => {
+
+              if(res1.data.length == '' && res2.data.length == ''){
+                window.alert('Invalid Surname and Firstname Codes Please Try again');
+              }
+              else if(res1.data.length == '' && res2.data.length != ''){
+                window.alert('Invalid Firstname Code Please Try again');
+              }
+              else if(res1.data.length != '' && res2.data.length == ''){
+                window.alert('Invalid Surname Code Please Try again');
+              }
                 console.log("Surname Done");
-                console.log(res.data);
+                console.log(res2.data);
                 this.setState({
-                  surName: res.data
+                  surName: res2.data
 
                 });
                 console.log(this.state);
               })
-              .catch(() => window.alert('Problem with Surname'));
+              .catch(() => window.alert('Internal Server Error. Please try again Later'));
 
           })
-          .catch(() => window.alert('Problem With Firstname'));
+          .catch(() => window.alert('Internal Server Error. Please try again Later'));
 
 
   }
   else if (scode === '' && fcode != '') {
     axios.post('http://localhost:4000/names/get/fnamecode', codeSet)
-        .then(res => {
+        .then(res1 => {
+          if(res1.data.length == ''){
+            window.alert('Invalid Firstname code. Please try again');
+          }
+          else{
             console.log("Firstname Done");
-            console.log(res.data);
+            console.log(res1.data);
             this.setState({
-              firstName: res.data
+              firstName: res1.data
 
             })
+          }
+            
           })
-          .catch(() => window.alert('Problem With Firstname'));
+          .catch(() => window.alert('Internal Server Error PLease Try Again.'));
 
 
 
@@ -155,20 +180,26 @@ export default class TestNameFinder extends Component {
   else if (scode != '' && fcode === '') {
 
     axios.post('http://localhost:4000/names/get/snamecode', codeSet)
-        .then(res => {
+        .then(res1 => {
+          if(res1.data.length == ''){
+            window.alert('Invalid Surname Code. Please try again');
+          }
+          else{
             console.log("Surname Done");
-            console.log(res.data);
+            console.log(res1.data);
             this.setState({
-              surName: res.data
+              surName: res1.data
 
             })
+          }
+            
           })
-          .catch(() => window.alert('Problem With Surname'));
+          .catch(() => window.alert('Internal Server Error PLease Try Again.'));
 
   }
 
   else {
-    window.alert('Please Try Again Later!!!!');
+    window.alert('Internal Server Error Please Try Again Later.');
   }
 
 
@@ -194,10 +225,6 @@ export default class TestNameFinder extends Component {
    <div className= "bold">- Only First Name Code</div>   Returns a list of Firstnames corresponding to the Firstname Code <br/>
    <div className= "bold">- Only Surname Code </div>  Returns a list of Surnames corresponding to the Surname Code<br/>
    <div className= "bold">- Both Firstname and Surname Code</div>  The system displays the Surname Code and he Firstname Code inthe respective Text boxes. Then after form submission, the system returns a list of Surnames and First Names Corresponding tto the  Digit Code given as input in the form.<br/><br/> 
-   
-
-       
-       
        </div>
       </div>
 <br/>
@@ -206,46 +233,65 @@ export default class TestNameFinder extends Component {
           <form onSubmit= {this.onSubmit} action = "data">
              <div className= "form-group">
 
-             <label> Enter Code: </label>
-             <div className= "App-Component">
-             <div className= "AutoCompleteText">
-             <input type="text"
-                                className="form-control"
-                                name="finCode"
-                                onChange={this.onTextChangedCode}
-                                ref={(c) => this.finCode = c}
-                            />
-            </div>
+              <label> Enter Code: </label>
+              <div className= "App-Component">
+              <div className= "AutoCompleteText">
+              <input type="text"
+                                  className="form-control"
+                                  name="finCode"
+                                  onChange={this.onTextChangedCode}
+                                  ref={(c) => this.finCode = c}
+                              />
+              </div>
             </div>
             <br/>
+            
              <label> Surname Code: </label>
-             <div className= "App-Component">
-             <div className= "AutoCompleteText">
+             <div className= "AutoCompleteText2">
              <input type="text"
                     value={finalCode.toString().substring(0,4)}
-                    className="form-control"
+                    className="AutoCompleteText2"
                     onInputChange = {this.onTextChangedSname}
                     ref={(c) => this.scode = c}
-                    name="scode"/>
+                    name="scode" disabled/>
+             </div>
+             
 
 
 
-            </div>
-            </div>
-            <br/>
+            
              <label> First Name Code: </label>
-             <div className= "App-Component">
-             <div className= "AutoCompleteText">
+             <div className= "AutoCompleteText2">
              <input type="text"
                      value={finalCode.toString().substring(4,8)}
-                     className="form-control"
+                     className="AutoCompleteText2"
                      onInputChange = {this.onTextChangedFname}
                      ref={(c) => this.fcode = c}
-                     name="fcode"/>
+                     name="fcode" disabled/>
 
+</div>
 
-             </div>
-             </div>
+<label> Surname Code: </label>
+              <div className= "App-Component">
+              <div className= "AutoCompleteText">
+              <input type="text"
+                                  className="form-control"
+                                  name="soloScode"
+                                  ref={(c) => this.soloScode = c}
+                              />
+              </div>
+            </div>
+            <label> First Name Code: </label>
+              <div className= "App-Component">
+              <div className= "AutoCompleteText">
+              <input type="text"
+                                  className="form-control"
+                                  name="soloFcode"
+                                  ref={(c) => this.soloFcode = c}
+                              />
+              </div>
+            </div>
+            
              <br/>
 
 

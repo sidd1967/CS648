@@ -61,10 +61,10 @@ class ExcelReader extends Component {
 
       /* Update state */
       this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
-        console.log(JSON.stringify(this.state.data, null, 2));
+       // console.log(JSON.stringify(this.state.data, null, 2));
         console.log(this.state);
       });
-        console.log(this.state.data[0].__rowNum__);
+       // console.log(this.state.data[0].__rowNum__);
 
     };
     if (rABS) {
@@ -76,34 +76,85 @@ class ExcelReader extends Component {
 
 
   }
+  
 
   handleEncoding = () => {
     const data = this.state.data;
+    console.log(data)
     const totalProps = data.reduce((a, obj) => a + Object.keys(obj).length, 0);
-      const length = totalProps / 3;
-      console.log("LENGTH = " + length);
-    const requestOptions = {
-      body: this.state.data,
-      length: length
-    };
-    //  console.log(this.state.data);
-      axios.post('http://localhost:4000/names/get/filenames', requestOptions)
-      .then(res => {
-      //  console.log("sname here");
-       console.log("DATA RECEIVED FROM SERVER");
-          console.log(res);
-          res.data.sort((a, b) => a.ID - b.ID);
-          this.setState({
-              finalValues: res.data
+   const length = data.reduce((max, x) =>  (x.ID > max) ? x.ID : max, 0)
+   var isSnamePresent=false;
+   var isFnamePresent= false;
+   var isIDPresent =false;
+   console.log(length);
+   if(length){
+    for(var p= 0; p<length; p++){
+      if(data[p].hasOwnProperty("Surname"))
+      {
+         isSnamePresent = true;
+      }
+     if(data[p].hasOwnProperty("Firstname"))
+      {
+         isFnamePresent = true;
+      }
+     if(data[p].hasOwnProperty("ID"))
+      {
+         isIDPresent =true;
+      }
+    }
+   }
+   else{
+    window.alert('Upload Failed.\nThis is due to Incorrect syntax of the Uploaded File.');
 
-       });
+   }
+     
+     console.log(isSnamePresent);
+     console.log(isFnamePresent);
+     console.log(isIDPresent);  
+
+    if((isIDPresent == true) && data != ''){
+
+      if(isSnamePresent == false && isFnamePresent == false){
+        window.alert('Upload Failed.\nThis is due to: \n1) Incorrect syntax of the Uploaded File.\n2)Empty File Uploaded');
+      }
+      else{
+        console.log("LENGTH = " + length);
+        const requestOptions = {
+          body: this.state.data,
+          length: length
+        };
+        //  console.log(this.state.data);
+          axios.post('http://localhost:4000/names/get/filenames', requestOptions)
+          .then(res => {
+            if(res.data.length == ''){
+              window.alert('Operation Failure.\n This is due to: \n 1) Incorrect syntax of the Uploaded File. \n 2) The Uploaded Name records could not be found in Database');
+            }
+          //  console.log("sname here");
+           console.log("DATA RECEIVED FROM SERVER");
+              console.log(res);
+              res.data.sort((a, b) => a.ID - b.ID);
+              this.setState({
+                  finalValues: res.data
+    
+           });
+    
+    
+              console.log(this.state.finalValues);
+    
+         })
+  
+      }
+       
+      }
+
+    else{
+      window.location.reload(false);
 
 
-          console.log(this.state.finalValues);
-
-     })
+      
 
   }
+}
 
   displayFinal() {
 
@@ -113,7 +164,7 @@ class ExcelReader extends Component {
           })
 
       }
-
+  
 
   render() {
 

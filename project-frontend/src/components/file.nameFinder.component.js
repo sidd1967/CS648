@@ -79,11 +79,12 @@ class FileNameFinder extends Component {
 
       console.log("COMES TO HANDLE ENCODING");
     const totalProps = data.reduce((a, obj) => a + Object.keys(obj).length, 0);
-      const length = totalProps/2;
+   const length = data.reduce((max, x) =>  (x.ID > max) ? x.ID : max, 0)
       console.log("Length == " + length);
 
 
-
+      var isCodePresent =  false;
+      var isIDPresent = false;
       var scode;
       var fcode;
       var code;
@@ -91,60 +92,99 @@ class FileNameFinder extends Component {
      //var name = "123456789"
      //var test = name.toString().substring(0, 2);
 
-
-     for(var i =0; i<length;i++){
-
-         code = data[i].Code
-
-         if (code.toString().length < 7) {
-
-             switch (code.toString().length) {
-                 case 0:
-                     break;
-                 case 1: code = "000000" + code;
-                     break;
-                 case 2: code = "00000" + code;
-                     break;
-                 case 3: code = "0000" + code;
-                     break;
-                 case 4: code = "000" + code;
-                     break;
-                 case 5: code = "00" + code;
-                     break;
-                 case 6: code = "0" + code;
-                     break;
-
-             }
-
-         }
-         console.log(code);
-         scode = code.toString().substring(0, 4);
-         fcode = code.toString().substring(4, 8);
-         fullCode.push(({ "ID": data[i].ID, "Scode": scode, "Fcode": fcode }))
-         // console.log(fullCode)
-
-
+     if(length){
+      for(var p= 0; p<length; p++){
+        if(data[p].hasOwnProperty("Code"))
+        {
+           isCodePresent = true;
+        }
+       
+       if(data[p].hasOwnProperty("ID"))
+        {
+           isIDPresent =true;
+        }
       }
+     }
+     else{
+      window.alert('Upload Failed.\nThis is due to Incorrect syntax of the Uploaded File.');
 
+     }
+
+
+
+     if(isCodePresent == true && isIDPresent == true){
+      for(var i =0; i<length;i++){
+
+        code = data[i].Code
+
+        if (code.toString().length < 7) {
+
+            switch (code.toString().length) {
+                case 0:
+                    break;
+                case 1: code = "000000" + code;
+                    break;
+                case 2: code = "00000" + code;
+                    break;
+                case 3: code = "0000" + code;
+                    break;
+                case 4: code = "000" + code;
+                    break;
+                case 5: code = "00" + code;
+                    break;
+                case 6: code = "0" + code;
+                    break;
+
+            }
+
+        }
+        console.log(code);
+        scode = code.toString().substring(0, 4);
+        fcode = code.toString().substring(4, 8);
+        fullCode.push(({ "ID": data[i].ID, "Scode": scode, "Fcode": fcode }))
+        // console.log(fullCode)
+
+
+     }
+     }
+     else if(isIDPresent == true && isCodePresent == false){
+       
+      window.alert('Upload Failed.\nThis is due to\n1) Incorrect Syntax of Uploaded File \n2)Empty File Uploaded');
+
+     }
+     
+     
+     
+     
+     if(isIDPresent == true && isCodePresent == true){
       const requestOptions = {
-          body: fullCode,
-          length: length
-      };
-      console.log(requestOptions.body)
-      axios.post('http://localhost:4000/names/get/filecodes', requestOptions)
-      .then(res => {
-      //  console.log("sname here");
-       console.log("DATA RECEIVED FROM SERVER");
-          console.log(res.data);
-          res.data.sort((a, b) => a.ID - b.ID);
-       this.setState({
-         finalSet: res.data
-       });
+        body: fullCode,
+        length: length
+    };
+    console.log(requestOptions.body)
+    axios.post('http://localhost:4000/names/get/filecodes', requestOptions)
+    .then(res => {
+    //  console.log("sname here");
+    if(res.data == ''){
+      window.alert("Invalid Code Uploded Operation Failed");
+    }
+     console.log("DATA RECEIVED FROM SERVER");
+        console.log(res.data);
+        
+        res.data.sort((a, b) => a.ID - b.ID);
+     this.setState({
+       finalSet: res.data
+     });
 
 
-       console.log(this.state);
+     console.log(this.state);
 
-     })
+   })
+   .catch(() => window.alert('Internal Server Error. Please try again Later'));
+     }
+     
+
+     
 
   }
    
@@ -186,12 +226,7 @@ class FileNameFinder extends Component {
        </div>
       </div>
         <br/>
-        
-          
-
-                    <br />
-
-                  <div class="form-group files">
+                          <div class="form-group files">
                     <label htmlFor="file"><h3>Upload Your File</h3> </label>
                      <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
                   </div>
