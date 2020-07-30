@@ -8,13 +8,14 @@ import  EditPage from "./components/edit.component";
 
 import  ExcelHandler from "./components/excel.reader.component";
 import  FileNameFinder from "./components/file.nameFinder.component";
-import  TestNameFinder from  "./components/testnamefinder"
-
+import  TestNameFinder from  "./components/testnamefinder";
+import Webservice from "./components/api.component";
 
 import car from "./bg.jpg";
 
 
 import logo from "./logo.png";
+import './index.css';
 
 
 class App extends Component {
@@ -27,7 +28,7 @@ class App extends Component {
                   <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 
             <a className="navbar-brand" href="https://google.com" target="_blank">
-              <img src = {logo} width="30" height="30" alt="Soundex Project" />
+              <img src = {logo} width ="30" height="30"className="logo" alt="Soundex Project" />
             </a>
             <Link to="/" className="navbar-brand"> Name Encoder</Link>
             <div className="collpase nav-collapse">
@@ -48,6 +49,9 @@ class App extends Component {
                 <li className="navbar-item">
                   <Link to="/fileName" className="nav-link">File Name Finder </Link>
                 </li>
+                <li className="navbar-item">
+                  <Link to="/webservice" className="nav-link">Webservice Demo </Link>
+                </li>
               </ul>
             </div>
           </nav>
@@ -67,10 +71,13 @@ class App extends Component {
           <Route path="/nameFinder" component={TestNameFinder} />
           <Route path="/file" component={ExcelHandler} />
           <Route path="/fileName" component={FileNameFinder} />
+          <Route path="/webservice" component={Webservice} />
 
 
         </div>
-
+        <div className="footer">
+        <img src = {logo}  width ="30" height="30" className="logo" alt="Soundex Project" />    Name Encoder
+</div>
 
 
               </Router>

@@ -3,18 +3,22 @@
     border: 1px solid grey;
     box-shadow: 0 0 0 1px rgba(0,0,0,.1), 0 2px 4px 1px rgba(0,0,0,.18);
     outline: none;
+    border-radius: 5px;
+
     
 }
 
 .AutoCompleteText input {
     width: 100%;
     border: none;
-    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Montserrat", sans-serif;
     font-size: 12px;
     color: #000000;
     padding: 10px 5px;
     box-sizing: border-box;
     outline: none;
+    border-radius: 10px;
+
 }
 
 .AutoCompleteText2 {
@@ -28,12 +32,14 @@
   display: grid;
   width: 100%;
   border: none;
-  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 12px;
   background-color: lightgrey;
   padding: 10px 5px;
   outline: none;
   cursor: default;
+  border-radius: 10px;
+
 }
 
 .AutoCompleteText2 li{
@@ -79,17 +85,17 @@ div.b {
   left: 820px;
   width: 380px;
   height: auto;
-  border-bottom: 2px solid rgb(52, 58, 64);
-  border-right: 2px solid rgb(52, 58, 64);
-  border-left: 2px solid rgb(52, 58, 64);
-  background-color: rgb(52, 58, 64);
+  border-bottom: 2px solid #343a40;
+  border-right: 2px solid #343a40;
+  border-left: 2px solid #343a40;
+  background-color: #343a40;
   padding-left: 5px;
   padding-right: 5px;
   padding-top: 20px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   display: block;
-  font: 16px "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  font: 16px "Montserrat", sans-serif;
   color: aliceblue;
   text-align: left;
   line-height: 21px;
@@ -100,29 +106,67 @@ div.b {
 
 } 
 div.c {
-  font: 14px "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  font: 14px "Montserrat", sans-serif;
   text-align: left;
   line-height: 21px;
+  padding: 5px;
 }
 
 div.textbox {
-  border-style: inset;
-  border-radius: 8px;
+  
+  border-radius: 10px;
   padding-left: 15px;
-  background-color: rgb(36, 43, 49);
+  padding-right: 15px;
+  background-color: rgb(255, 255, 255);
   display: block;
-  font: 14px "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  font: 14px "Montserrat", sans-serif;
+  color: #000000;
   text-align: left;
   line-height: 18px;
+  border-style: solid;
+  border-color: #ffffff;
+  width: fit-content;
+  text-align: left;
+  margin-left: 39px;
+  margin-right: 39px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
 }
 
 div.bold {
-  font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font: 15px "Montserrat", sans-serif;
   font-weight: bold;
   line-height: 22px;
 }
+div.bold1 {
+  font: 15px "Montserrat", sans-serif;
+  font-weight: bold;
+  line-height: 22px;
+  color: #ffffff;
+  padding-left: 3px;
+  background-color: #343a40;
+  width: fit-content;
+  padding: 7px;
+  border-radius: 4px;
+  margin-bottom: -2px;
+  margin-left: 1px;
 
+}
+div.bold2 {
+  font: 15px "Montserrat", sans-serif;
+  font-weight: bold;
+  line-height: 22px;
+  color: #ffffff;
+  padding-left: 3px;
+  background-color: #343a40;
+  width: fit-content;
+  padding: 7px;
+  border-radius: 4px;
+  margin-bottom: -2px;
+  margin-left: 1px;
+
+}
 
 .center {
   display: block;
@@ -133,11 +177,11 @@ div.bold {
 }
 
 
-.center2 {
+.center3 {
   display: block;
   height: auto;
-  width: 250px;
-  margin-left: 20px;
+  width: 240px;
+  margin-left: 40px;
   margin-right: 20px;
 }
 
@@ -148,3 +192,124 @@ div.bold {
   border: 0;
 
 }
+
+
+
+div.editform1 {
+  position: absolute;
+  
+
+}
+
+
+div.displaybox1{
+
+  position: relative;
+  display: flex;
+  justify-content:space-between;
+  flex-direction:row;
+  flex-wrap:wrap;
+
+  
+}
+div.displaybox2{
+  position: relative;
+  display: flex;
+  justify-content:space-between;
+  flex-direction:row;
+  flex-wrap:wrap;
+}
+
+
+.colums {
+  display:flex;
+  justify-content: space-evenly;
+  flex-direction:row;
+  flex-wrap:wrap;
+  }
+  .colums div {
+  width:100%;
+  }
+
+  .item {
+    position: relative;
+    margin: 10px 0;
+    padding-right: 100px;
+    padding-left: 0px;
+    
+    }
+    .item span {
+    color: red;
+    }
+
+    .label {
+      padding-right: 16px;
+      margin-left: 0;
+     
+    }
+
+    .label2 {
+      padding-right: 10px;
+      padding-left: 0px;
+    }
+
+    div.borderform {
+      border-style: outset;      
+      padding: 20px;
+      margin-bottom: 10px;
+      width: auto;
+      border-radius: 5px;
+    }
+    .button {
+      border: 1px solid #343a40;
+      border-radius: 2px;
+      color: black;
+      padding: 8px 18px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+    
+    .button-primary{
+      background-color: white; 
+      font: "Montserrat", sans-serif;
+      font-size: 20px;
+      color: black; 
+      
+      
+    }
+
+    .button-primary:hover{
+      background-color: #343a40;
+      color: white;
+    }
+   div.smalltitle{
+    font: "Montserrat", sans-serif;
+    color: #343a40;
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    margin-top: 15px;
+   }
+  
+   div.smalltitle2{
+    font: "Montserrat", sans-serif;
+    color: #343a40;
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    
+   }
+   div.smalltitle3{
+    font: "Montserrat", sans-serif;
+    color: #343a40;
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    
+   }
+   

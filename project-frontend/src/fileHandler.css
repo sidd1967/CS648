@@ -17,10 +17,10 @@
 .files{ position:relative}
 .files:after {  pointer-events: none;
     position: absolute;
-    top: 60px;
+    top: 180px;
     left: 0;
     width: 50px;
-    right: 0;
+    right: 10px;
     height: 56px;
     content: "";
     background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
