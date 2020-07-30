@@ -116,8 +116,8 @@ export default class EditPage extends Component {
 
   async componentDidMount() {
 
-
-      axios.get('http://localhost:4000/names/getall/fnames')
+    console.log(process.env.REACT_APP_API_URL);
+      axios.get(`${process.env.REACT_APP_API_URL}/allnames/getall/fnames`)
       .then((result1) => {
         console.log("START");
 
@@ -126,7 +126,7 @@ export default class EditPage extends Component {
             isLoadedSnames:true
           })
 
-          axios.get('http://localhost:4000/names/getall/snames')
+          axios.get(`${process.env.REACT_APP_API_URL}/allnames/getall/snames`)
           .then((result2) => {
 
               this.setState({
@@ -167,7 +167,7 @@ export default class EditPage extends Component {
 
     }
     else if (this.state.firstName === '' && this.state.surName != '') {
-      axios.post('http://localhost:4000/names/get/sname', newNameSet)
+      axios.post(`${process.env.REACT_APP_API_URL}/codes/get/sname`, newNameSet)
       .then(res => {
       //  console.log("sname here");
 
@@ -186,7 +186,7 @@ export default class EditPage extends Component {
     }
     else if (this.state.firstName !='' && this.state.surName === '') {
 
-      axios.post('http://localhost:4000/names/get/fname', newNameSet)
+      axios.post(`${process.env.REACT_APP_API_URL}/codes/get/fname`, newNameSet)
             .then(res => {
               console.log("fname here");
               console.log(res.data);
@@ -205,7 +205,7 @@ export default class EditPage extends Component {
     }
 
     else {
-      axios.post('http://localhost:4000/names/get/sname', newNameSet)
+      axios.post(`${process.env.REACT_APP_API_URL}/codes/get/sname`, newNameSet)
            .then(res => {
              console.log("sname here");
 
@@ -216,7 +216,7 @@ export default class EditPage extends Component {
              })
             console.log(this.state.snameCode);
             console.log(this.state);
-            axios.post('http://localhost:4000/names/get/fname', newNameSet)
+            axios.post(`${process.env.REACT_APP_API_URL}/codes/get/fname`, newNameSet)
                   .then(res => {
                     console.log("fname here");
                     console.log(res.data);
@@ -245,7 +245,7 @@ export default class EditPage extends Component {
       return (
           
           <div className="form">
-     <div class="col-md-9">
+     <div class="col-md-6">
                   
                      
                       
@@ -259,8 +259,8 @@ export default class EditPage extends Component {
    <div className= "bold">- Only Surname </div>  Returns a 4 digit code corresponding to the Surname<br/>
    <div className= "bold">- Both Firstname and Surname </div>    Returns a 7 Digit code in the Format "4 Digit Surname Code" followed by "3 Digit" Firstname code<br/><br/> 
    For example, Abby Wynn is represented as 1158002.<br/>
-   Here "1158" -> Corresponds to Surname(Wynn) Code<br/>
-   And "002" -> Corresponds to Firstname(Abby) Code<br/><br/>
+   Here "1158" - Corresponds to Surname(Wynn) Code<br/>
+   And "002" - Corresponds to Firstname(Abby) Code<br/><br/>
 
        
        
@@ -270,8 +270,9 @@ export default class EditPage extends Component {
                   <br/>
 
 
-                  <h3> Welcome to Code Generator Component!!!!</h3>
-
+                  <div className = "smalltitle2"> Welcome to Code Generator Component</div>
+                  <div className = "bold1">Enter  Names to Find Indexes</div>
+                  <div className="borderform">
           <form onSubmit= {this.onSubmit}>
              <div className= "form-group">
 
@@ -308,7 +309,7 @@ export default class EditPage extends Component {
              <br/>
              <div className="form-group">
 
-             <input type="submit" value=" Generate Code" className="btn btn-primary" />
+             <input type="submit" value=" Generate Code" className="button button-primary" />
              </div>
 
 
@@ -324,10 +325,12 @@ export default class EditPage extends Component {
             </div>
 
             </div>
-                      </form><br /> 
+                      </form></div><br /> 
                       
                       
-              
+                      <br/>
+          <br/>
+          <br/>
               </div>
           </div>
 

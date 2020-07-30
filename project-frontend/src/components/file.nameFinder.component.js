@@ -51,17 +51,24 @@ class FileNameFinder extends Component {
     reader.onload = (e) => {
       /* Parse data */
       const bstr = e.target.result;
-      const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA : true });
-      /* Get first worksheet */
-      const wsname = wb.SheetNames[0];
-      const ws = wb.Sheets[wsname];
-      /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_json(ws);
-      /* Update state */
-      this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
-        console.log(JSON.stringify(this.state.data, null, 2));
-        console.log(this.state);
-      });
+      try{
+        const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA : true });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_json(ws);
+        /* Update state */
+        this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
+          console.log(JSON.stringify(this.state.data, null, 2));
+          console.log(this.state);
+          this.handleEncoding();
+        });
+      }
+      catch(err){
+        window.alert('Invalid File Uploaded');
+        window.location.reload(false);
+      }      
 
     };
     if (rABS) {
@@ -89,9 +96,7 @@ class FileNameFinder extends Component {
       var fcode;
       var code;
       var fullCode = [];
-     //var name = "123456789"
-     //var test = name.toString().substring(0, 2);
-
+     
      if(length){
       for(var p= 0; p<length; p++){
         if(data[p].hasOwnProperty("Code"))
@@ -107,12 +112,12 @@ class FileNameFinder extends Component {
      }
      else{
       window.alert('Upload Failed.\nThis is due to Incorrect syntax of the Uploaded File.');
-
+      window.location.reload(false);
      }
 
 
 
-     if(isCodePresent == true && isIDPresent == true){
+     if(isCodePresent === true && isIDPresent === true){
       for(var i =0; i<length;i++){
 
         code = data[i].Code
@@ -147,26 +152,27 @@ class FileNameFinder extends Component {
 
      }
      }
-     else if(isIDPresent == true && isCodePresent == false){
+     else if(isIDPresent === true && isCodePresent === false){
        
       window.alert('Upload Failed.\nThis is due to\n1) Incorrect Syntax of Uploaded File \n2)Empty File Uploaded');
-
+      window.location.reload(false);
      }
      
      
      
      
-     if(isIDPresent == true && isCodePresent == true){
+     if(isIDPresent === true && isCodePresent === true){
       const requestOptions = {
         body: fullCode,
         length: length
     };
     console.log(requestOptions.body)
-    axios.post('http://localhost:4000/names/get/filecodes', requestOptions)
+    axios.post(`${process.env.REACT_APP_API_URL}/names/fileget/filecodes`, requestOptions)
     .then(res => {
     //  console.log("sname here");
-    if(res.data == ''){
+    if(res.data === ''){
       window.alert("Invalid Code Uploded Operation Failed");
+      window.location.reload(false);
     }
      console.log("DATA RECEIVED FROM SERVER");
         console.log(res.data);
@@ -206,8 +212,9 @@ class FileNameFinder extends Component {
       return (
           <div className="form">
         <div class="container">
+        
             <div class="row">
-
+            
     	  <div class="col-md-6">
         
 
@@ -219,35 +226,32 @@ class FileNameFinder extends Component {
      <div className="textbox"> <br/> .xlsx, .xlsb, .xlsm, .xls, .xml, .csv, .txt,<br/> .ods, .fods, .uos, .sylk, .dif, .dbf, .prn, <br/>.qpw .wb*, .wq*, .html, .htm <br/><br/></div>
    <br/>- The file must contain 2 columns: "ID" and "Code".<br/> - ID is just a serial Number. <br/>
    - Ideally, the code must be a 7 digit integer, but the excel files eliminate the leading zeros.<br/> - For Example if the correct structure of Soundex code is 0001023, but excel saves it as 1023 which is not correct.
-     <br/>- The system is designed to acknowledge this problem and convert the code from "1023" to "0001023"<br/><br/>
+     <br/>- The system is designed to acknowledge this problem and convert the code from "1023" to "0001023"<br/>When you click "Find Names", the system fetches the names corresponding to the code in the file<br/><br/>
 
        
        
        </div>
       </div>
-        <br/>
+      
                           <div class="form-group files">
-                    <label htmlFor="file"><h3>Upload Your File</h3> </label>
+                          <div className = "smalltitle"> Welcome to File Handler Name Finder Component</div>
+                    <label htmlFor="file"><div className = "smalltitle3">Upload Your File</div> </label>
                      <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
                   </div>
                   <br />
                     <thead>
                         <tr>
-                            <th><input type='submit'
-                                value="Upload"
-                                onClick={this.handleFile} className="btn btn-primary" /></th>
+                            
                             <th>         </th>
                             <th>  <Link
                                 type="submit"
-                                onClick={this.handleEncoding}
+                                onClick={this.handleFile}
                                 activeClass="active"
                                 to="data"
-                                className="btn btn-primary"
-                                style={{ float: 'left', paddingRight: '15px', marginLeft: '10px', color: 'white' }}
                                 spy={true}
                                 smooth={true}
                                 offset={0}
-                                duration={500}>Find Code</Link></th>
+                                duration={500}><button class = "button button-primary"> Find Names</button></Link></th>
 
 
 
@@ -288,10 +292,14 @@ class FileNameFinder extends Component {
                         {this.displayNames()}
                     </tbody>
                     </table>
+                    <br/>
+          <br/>
                     </div>
                 </div>
 
-
+                <br/>
+          <br/>
+          <br/>
 
     	  </div>
               </div>

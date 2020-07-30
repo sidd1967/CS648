@@ -11,6 +11,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import instructs from "../demo.PNG";
 
 
+
 const Todo = props => (
     <tr>
         <td>{props.todo.ID}</td>
@@ -52,18 +53,35 @@ class ExcelReader extends Component {
     reader.onload = (e) => {
       /* Parse data */
       const bstr = e.target.result;
-      const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA : true });
+
+      try{
+        const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA : true });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+          const data = XLSX.utils.sheet_to_json(ws);
+          this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
+            // console.log(JSON.stringify(this.state.data, null, 2));
+             console.log(this.state);
+             this.handleEncoding();
+           });
+      }
+      catch(err){
+        window.alert('Invalid File Uploaded');
+        window.location.reload(false);
+      }
+      
       /* Get first worksheet */
-      const wsname = wb.SheetNames[0];
-      const ws = wb.Sheets[wsname];
-      /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_json(ws);
+     
 
       /* Update state */
-      this.setState({ data: data, cols: make_cols(ws['!ref']) }, () => {
-       // console.log(JSON.stringify(this.state.data, null, 2));
-        console.log(this.state);
-      });
+
+      
+      
+      
+
+      
+     
        // console.log(this.state.data[0].__rowNum__);
 
     };
@@ -105,6 +123,7 @@ class ExcelReader extends Component {
    }
    else{
     window.alert('Upload Failed.\nThis is due to Incorrect syntax of the Uploaded File.');
+    window.location.reload(false);
 
    }
      
@@ -112,10 +131,11 @@ class ExcelReader extends Component {
      console.log(isFnamePresent);
      console.log(isIDPresent);  
 
-    if((isIDPresent == true) && data != ''){
+    if((isIDPresent === true) && data !== ''){
 
-      if(isSnamePresent == false && isFnamePresent == false){
+      if(isSnamePresent === false && isFnamePresent === false){
         window.alert('Upload Failed.\nThis is due to: \n1) Incorrect syntax of the Uploaded File.\n2)Empty File Uploaded');
+        window.location.reload(false);
       }
       else{
         console.log("LENGTH = " + length);
@@ -124,10 +144,11 @@ class ExcelReader extends Component {
           length: length
         };
         //  console.log(this.state.data);
-          axios.post('http://localhost:4000/names/get/filenames', requestOptions)
+          axios.post(`${process.env.REACT_APP_API_URL}/codes/fileget/filenames`, requestOptions)
           .then(res => {
-            if(res.data.length == ''){
+            if(res.data.length === ''){
               window.alert('Operation Failure.\n This is due to: \n 1) Incorrect syntax of the Uploaded File. \n 2) The Uploaded Name records could not be found in Database');
+              window.location.reload(false);
             }
           //  console.log("sname here");
            console.log("DATA RECEIVED FROM SERVER");
@@ -170,49 +191,47 @@ class ExcelReader extends Component {
 
       return (
           <div className="form">
-        <div class="container">
-    	<div class="row">
-    	  <div class="col-md-6">
+        <div className="container">
+    	<div className="row">
+      
+    	  <div className="col-md-6">
 
-        <div class="b">
-        Format of the File to be uploaded <br/><br/><img src = {instructs} className = "center2" alt="Soundex Project" /> <br/><br/>
+        <div className="b">
+        Format of the File to be uploaded <br/><br/><img src = {instructs} className = "center3" alt="Soundex Project" /> <br/>
         
         <div className="c">
      The file to be uploaded can be of the formats:
      <div className="textbox"> <br/> .xlsx, .xlsb, .xlsm, .xls, .xml, .csv, .txt,<br/> .ods, .fods, .uos, .sylk, .dif, .dbf, .prn, <br/>.qpw .wb*, .wq*, .html, .htm <br/><br/></div>
    <br/>- The file must contain atleast 2 columns: "ID"(Mandatory fields), "Surname", "Firstname".<br/> - ID is just a serial Number. <br/>
-   - Ideally, the file must contain either Surname/FirstnameFields or Both.<br/><br/> If the Uploade file Contains<br/>
+   - Ideally, the file must contain either Surname/FirstnameFields or Both.<br/> If the Uploade file Contains<br/>
    <div className= "bold">- Only First Name Field</div>   Returns a list of 3 digit code corresponding to the Firstnames<br/>
    <div className= "bold">- Only Surname Field</div>  Returns a list of 4 digit code corresponding to the Surname<br/>
-   <div className= "bold">- Both Firstname and Surname Fields</div>    Returns a 7 Digit code in the Format "4 Digit Surname Code" followed by "3 Digit" Firstname code<br/><br/> </div>
+   <div className= "bold">- Both Firstname and Surname Fields</div>    Returns a 7 Digit code in the Format "4 Digit Surname Code" followed by "3 Digit" Firstname code<br/><br/><br/> </div>
     
         
         
           </div>
 
-                    <br/>
-                  <div class="form-group files">
-                    <label htmlFor="file"><h3>Upload Your File</h3> </label>
+         
+                            <div class="form-group files">
+                            <div className = "smalltitle"> Welcome to File Handler Code Generator Component</div>
+                    <label htmlFor="file"><div className = "smalltitle3">Upload Your File</div> </label>
                      <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
                   </div>
                   <br />
                   <thead>
                       <tr>
-                          <th><input type='submit'
-                            value="Upload"
-                            onClick={this.handleFile} className="btn btn-primary"/></th>
+                          
                           <th>         </th>
                           <th>  <Link
                             type = "submit"
-                            onClick = {this.handleEncoding}
+                            onClick = {this.handleFile}
                             activeClass="active"
                             to="data"
-                            className="btn btn-primary"
-                            style={{float : 'left', paddingRight : '15px', marginLeft: '10px', color: 'white'}}
                             spy={true}
                             smooth={true}
                             offset={0}
-                            duration= {500}>Find Names</Link></th>
+                            duration= {500}><button class = "button button-primary">Find Codes</button></Link></th>
 
 
 
@@ -234,7 +253,7 @@ class ExcelReader extends Component {
                 
 
                 
-                <div class="col-md-8">
+                <div className ="col-md-8">
                     <div id="data">
 
                         <p>The table below displays the 7 Digit Soundex Code corresponding to the Surname and First Names in the uploaded files.</p>
@@ -257,7 +276,9 @@ class ExcelReader extends Component {
                     </div>
                     </div>
                     </div>
-
+                    <br/>
+          <br/>
+          <br/>
     	  </div>
               </div>
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import '../AutoCompleteText.css'
 import { Link, animateScroll as scroll } from "react-scroll";
-import { Redirect } from 'react-router';
+//import { Redirect } from 'react-router';
 
 
 const Todo = props => (
@@ -89,7 +89,7 @@ export default class TestNameFinder extends Component {
     var fincode = this.finCode.value;
     console.log("Fincode Value = " + fincode);
     
-    if(fincode == ''){
+    if(fincode === ''){
       var scode = this.soloScode.value;
       var fcode = this.soloFcode.value;
     }
@@ -117,9 +117,9 @@ export default class TestNameFinder extends Component {
 
 
   }
-  else if (scode != '' && fcode != '') {
+  else if (scode !== '' && fcode !== '') {
 
-    axios.post('http://localhost:4000/names/get/fnamecode', codeSet)
+    axios.post(`${process.env.REACT_APP_API_URL}/names/get/fnamecode`, codeSet)
         .then((res1) => {
             
             console.log("Firstname Done");
@@ -128,16 +128,16 @@ export default class TestNameFinder extends Component {
               firstName: res1.data
 
             });
-            axios.post('http://localhost:4000/names/get/snamecode', codeSet)
+            axios.post(`${process.env.REACT_APP_API_URL}/names/get/snamecode`, codeSet)
             .then((res2) => {
 
-              if(res1.data.length == '' && res2.data.length == ''){
+              if(res1.data.length === '' && res2.data.length === ''){
                 window.alert('Invalid Surname and Firstname Codes Please Try again');
               }
-              else if(res1.data.length == '' && res2.data.length != ''){
+              else if(res1.data.length === '' && res2.data.length !== ''){
                 window.alert('Invalid Firstname Code Please Try again');
               }
-              else if(res1.data.length != '' && res2.data.length == ''){
+              else if(res1.data.length !== '' && res2.data.length === ''){
                 window.alert('Invalid Surname Code Please Try again');
               }
                 console.log("Surname Done");
@@ -155,10 +155,10 @@ export default class TestNameFinder extends Component {
 
 
   }
-  else if (scode === '' && fcode != '') {
-    axios.post('http://localhost:4000/names/get/fnamecode', codeSet)
+  else if (scode === '' && fcode !== '') {
+    axios.post(`${process.env.REACT_APP_API_URL}/names/get/fnamecode`, codeSet)
         .then(res1 => {
-          if(res1.data.length == ''){
+          if(res1.data.length === ''){
             window.alert('Invalid Firstname code. Please try again');
           }
           else{
@@ -177,11 +177,11 @@ export default class TestNameFinder extends Component {
 
   }
 
-  else if (scode != '' && fcode === '') {
+  else if (scode !== '' && fcode === '') {
 
-    axios.post('http://localhost:4000/names/get/snamecode', codeSet)
+    axios.post(`${process.env.REACT_APP_API_URL}/names/get/snamecode`, codeSet)
         .then(res1 => {
-          if(res1.data.length == ''){
+          if(res1.data.length === ''){
             window.alert('Invalid Surname Code. Please try again');
           }
           else{
@@ -208,13 +208,13 @@ export default class TestNameFinder extends Component {
   render(){
 
     const { finalCode } = this.state;
-    const { firstName } = this.state;
-    const fnameCode =  finalCode.toString().substring(0,4);
+    //const { firstName } = this.state;
+    //const fnameCode =  finalCode.toString().substring(0,4);
 
       return (
 
           <div className="form">
-        <div class="col-md-9" >
+        <div className="col-md-6" >
       
         <div className="b">
                     <div className = "bold">Instructions</div> <br/>
@@ -228,10 +228,14 @@ export default class TestNameFinder extends Component {
        </div>
       </div>
 <br/>
-          <h3> Welcome to Name Finder Component!!!!</h3>
-          <br/>
+<div className = "smalltitle2"> Welcome to Name Finder Component</div>
+          
+          
           <form onSubmit= {this.onSubmit} action = "data">
              <div className= "form-group">
+               <div className = "bold1">Enter  7 Digit code (Surname and Firstname)</div>
+<div className="borderform">
+
 
               <label> Enter Code: </label>
               <div className= "App-Component">
@@ -246,30 +250,35 @@ export default class TestNameFinder extends Component {
             </div>
             <br/>
             
-             <label> Surname Code: </label>
-             <div className= "AutoCompleteText2">
+  
+            <div className="colums">
+          <div className="item">
+          <label className="label">Surname Code:  </label>
+             
              <input type="text"
                     value={finalCode.toString().substring(0,4)}
-                    className="AutoCompleteText2"
-                    onInputChange = {this.onTextChangedSname}
+                    onChange = {this.onTextChangedSname}
                     ref={(c) => this.scode = c}
                     name="scode" disabled/>
-             </div>
              
 
 
 
             
-             <label> First Name Code: </label>
-             <div className= "AutoCompleteText2">
+             <label className="label2">Firstname Code:</label>
+             
              <input type="text"
                      value={finalCode.toString().substring(4,8)}
-                     className="AutoCompleteText2"
-                     onInputChange = {this.onTextChangedFname}
+                     onChange = {this.onTextChangedFname}
                      ref={(c) => this.fcode = c}
                      name="fcode" disabled/>
-
 </div>
+</div>
+</div>
+</div>
+<div className = "bold2">Or you can search individual name codes</div>
+
+<div className="borderform">
 
 <label> Surname Code: </label>
               <div className= "App-Component">
@@ -291,7 +300,7 @@ export default class TestNameFinder extends Component {
                               />
               </div>
             </div>
-            
+            </div>
              <br/>
 
 
@@ -300,12 +309,10 @@ type = "submit"
 onClick = {this.onSubmit}
 activeClass="active"
 to="data"
-className="btn btn-primary"
-style={{float : 'left', paddingRight : '15px', marginLeft: '0px', color: 'white'}}
 spy={true}
 smooth={true}
 offset={0}
-duration= {500}>Find Names</Link>
+duration= {500}><button className = "button button-primary">Find Names</button></Link>
 
            <br/><br/>
 
@@ -342,7 +349,6 @@ duration= {500}>Find Names</Link>
 
 
 
-             </div>
 
 
 
@@ -359,6 +365,9 @@ duration= {500}>Find Names</Link>
 
             </div>
           </form>
+          <br/>
+          <br/>
+          <br/>
       
               </div>
               </div>

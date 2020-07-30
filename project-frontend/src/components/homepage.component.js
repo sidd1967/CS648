@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import smithimage from "../smithimage.PNG"
+import '../homepage.css'
+import indexwork from "../indexwork.PNG"
 
 
 export default  class HomePage extends Component {
@@ -13,11 +16,15 @@ export default  class HomePage extends Component {
           <br/><h4>Name matching in Ireland</h4><br/>
 
 <p>Names of individuals used in documents created in the 19th century were written at a time when spelling was not standardized, handwriting could be difficult to read, contractions were used and many people were illiterate and so dictated their names to whoever was writing them down. This is a common problem in genealogy and various solutions have been found. One of these is using Look-up tables.</p>
-<br/>
+<br/><img src = {smithimage} className = "smith" alt="Soundex Project" align="right" />
+<p>
+For example, in the early 18th century, consider an individual whose surname is “Smith”. He registered his name with different combinations throughput his life. In the tenancy agreement, his name is listed as “Smythe”. In his marriage, he is signed as “Smeeth”. During his child’s birth and baptisms his name was variously recorded as “MacGowan”, “MacGowen”, “MacGovern” and “MeCowan”. After Civil Registrations were introduced, he signed as “MacGough” and having a proper record of his spelling, he kept using “MacGough” in the future. This is very common and significant problem in Genealogy. So, in order to trace the family name, the genealogist has to traceback to all these variations of the name “Smith”. This was a very hard approach every single time to search names and very time consuming.
+</p><br/><br/>
 <h4>Look-up tables:</h4><br/>
 
 <p> Irish surnames are a mixture of various influences reflecting the country’s history. In 1841, the majority used on official documents were either Anglicisations or translations of original Celtic names, using various spellings. Additional names are imports, mainly from Britain. Matheson, the Assistant Registrar-General in Dublin, used the civil registers in 1894 to produce a survey of names classified by original language, distribution and frequency . In 1901, he developed this into a full classification system with the aim of helping in searches of the register indexes . He illustrates the problem with examples collected from registry offices, where many of members of close families used different forms of their surnames (for example, a man called Smith registered as dead by his son using the name O’Gowan – an Anglicisation of the Irish for Smith). He used this information to classify the surnames of Ireland into 2091 groups of alternate forms of the same name .</p><p> For example, group 1897 consists of Smith, Smyth, Smythe, Smeeth, Gowan, O’Gowan, MacGowan, McGowan, M’Gowan, Goan, Going, Gow, and Magough, However, his classification is far from complete and also includes multiple mapping between names (that is, the same name can occur in more than one group).
 </p>
+
 <h4>Name encoding</h4><br/>
 <p>
 The main purpose of this project was to see how well each substitute reveals the same information as the census. The main method is to match individuals in each. This is done through matching names. Because of the nature of Irish surnames, a method can be used to do this semi-automatically using look-up tables.
@@ -28,8 +35,8 @@ Matheson does not cover all surnames. Therefore, the list of surnames from each 
 
 First names are often contracted in written documents. To match names such as Patrick with all possible variants (Pat, Patt, Patk, Paddy, etc.), a look-up scheme similar to that for surnames was adopted. This was based on the first name variants used by the Irish Family History Foundation on the RootsIreland website .  For example, the index value for Patrick and its variants is 94. As with surnames, each data source was indexed on first names and any missing variants identified. These were then manually added to the index table in most cases to an existing group. The final table included 4285 first name spellings arranged in 201 groups. A Soundex encoding for first names was considered but rejected as being less reliable.
 </p>
-
 <h4>How Does the Name Encoding Work?</h4><br/>
+<img src = {indexwork} className = "indexwork" alt="Soundex Project" align="center" />
 <p>
 For each person’s name therefore two encodings were derived:<br/>
 <ul>
@@ -39,7 +46,9 @@ For each person’s name therefore two encodings were derived:<br/>
 To encode the whole name, the index codes for surname and first-name were combined into a 7 digit number (nindex = sindex *1000+findex).<br/>
 For example, Patrick Hanlon in Griffith Valuation is represented as 0606094.<br/>
 The signature Patk O’Hanlon on the Morpeth Roll produces the same code, as does Patt Hanlon and Paddy Hanlin. This scheme also has the potential for partial matching as the range 0606000 to 0606999 represent all the Hanlon variants whatever the first name.
-</p>
+</p><br/>
+          <br/>
+          <br/>
               </div>
           </div>
 
